@@ -16,9 +16,9 @@ export const register = async (req, res, next) => {
     await newUser.save();
     res.status(200).send("User has been created.");
     } catch (err) {
-      next(err);
+    next(err);
     }
-  };
+};
 export const login = async (req, res, next) => {
     try {
     const user = await User.findOne({ username: req.body.username });

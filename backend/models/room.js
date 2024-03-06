@@ -9,7 +9,7 @@ const roomSchema = new mongoose.Schema({
     photos:{type:[String], require: true},
     desc:{type:String, require: true},
     rate:{type:Number, min: 0, max: 5},
-    cheapestprice:{type:Number, require: true},
+    pricepernight:{type:Number, require: true},
     featured:{type:Boolean, default:false},
 })
 
