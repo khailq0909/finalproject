@@ -43,7 +43,7 @@ return res.status(errorStatus).json({
 });
 });
 
-app.listen(8000, () => {
+app.listen(3000, () => {
 connect();
 console.log("Connected to backend.");
 });

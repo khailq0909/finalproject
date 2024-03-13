@@ -1,0 +1,20 @@
+.search{
+    height: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    position: absolute;
+    background-color: #fff;
+    top: 52%;
+    left: 0;
+    right: 0;
+    border-radius: 5px;
+}
+.searchbtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.align-items-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

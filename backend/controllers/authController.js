@@ -32,17 +32,17 @@ export const login = async (req, res, next) => {
         return next(createError(400, "Wrong password or username!"));
 
     const token = jwt.sign(
-        { id: user._id, isAdmin: user.isAdmin },
+        { id: user._id, isAdmin: user.isAdmin ,isHomeOwner: user.isHomeOwner},
         process.env.JWT_SECRET_KEY
     );
 
-    const { password, isAdmin, ...otherDetails } = user._doc;
+    const { password, isAdmin,isHomeOwner, ...otherDetails } = user._doc;
     res
         .cookie("access_token", token, {
         httpOnly: true,
         })
         .status(200)
-        .json({ details: { ...otherDetails }, isAdmin });
+        .json({ details: { ...otherDetails }, isAdmin, isHomeOwner, token});
     } catch (err) {
     next(err);
     }
