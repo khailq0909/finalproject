@@ -3,6 +3,10 @@ import {createError} from '../utils/error.js';
 
 export const createRoom = async (req, res, next) =>{
     const newRoom = new Room(req.body);
+
+    newRoom.lastUpdated = new Date();
+    newRoom.userId = req.userId;
+    console.log(newRoom.userId);
     try{
         const saveRoom = await newRoom.save();
         res.status(200).json(saveRoom);

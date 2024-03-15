@@ -1,17 +1,21 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const roomSchema = new mongoose.Schema({
-    name:{type:String, require: true},
-    type:{type:String, require: true},
-    city:{type:String, require: true},
-    address:{type:String, require: true},
-    distance:{type:String, require: true},
-    photos:{type:[String], require: true},
-    desc:{type:String, require: true},
-    rate:{type:Number, min: 0, max: 5},
-    pricepernight:{type:Number, require: true},
-    featured:{type:Boolean, default:false},
-})
+  userId: { type: String},
+  name: { type: String, required: true },
+  city: { type: String, required: true },
+  country: { type: String, required: true },
+  description: { type: String, required: true },
+  type: { type: String, required: true },
+  adultCount: { type: Number, required: true },
+  childCount: { type: Number, required: true },
+  facilities: [{ type: String, required: true }],
+  pricePerNight: { type: Number, required: true },
+  starRating: { type: Number, required: true, min: 1, max: 5 },
+  imageUrls: [{ type: String }],
+  lastUpdated: { type: Date},
+  bookings: {type: String},
+});
 
 const User = mongoose.model("Room", roomSchema);
 
