@@ -12,13 +12,10 @@ function Header() {
     const { loading, error, dispatch } = useContext(AuthContext);
     const handleClick = async (e) => {
         e.preventDefault();
-        dispatch({ type: "LOGOut" });
+        dispatch({ type: "LOGOUT" });
         try {
-            const res = await axios.post("/auth/loout");
+            const res = await axios.post("/auth/logout");
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-            console.log("token: ",);
-            console.log("login success");
-            
         } catch (err) {
             dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
         }

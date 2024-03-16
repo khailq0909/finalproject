@@ -31,7 +31,7 @@ export const verifyHomeOwner = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     req.isHomeOwner = decoded.isHomeOwner;
-    if (req.isHomeOwner == true) {
+    if (req.isHomeOwner == true || req.isAdmin == true) {
       next();
     }
   } catch (error) {

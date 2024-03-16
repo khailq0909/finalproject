@@ -37,14 +37,14 @@ export const login = async (req, res, next) => {
       process.env.JWT_SECRET_KEY,
     );
 
-    const { password, isAdmin, isHomeOwner, ...otherDetails } = user._doc;
+    const {  isAdmin, ...otherDetails } = user._doc;
     res
       .cookie("access_token", token, {
         httpOnly: true,
         maxAge: 86400000,
       })
       .status(200)
-      .json({ details: { ...otherDetails }, isAdmin, isHomeOwner });
+      .json({ details: { ...otherDetails }, isAdmin });
   } catch (err) {
     next(err);
   }

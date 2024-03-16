@@ -4,6 +4,7 @@ import Range from 'react-slider';
 import { useState, useEffect } from 'react';
 import slide2 from '../../assets/images/slide2.jpeg'
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 const MIN = 0;
 const MAX = 1500;
@@ -54,7 +55,7 @@ function Container() {
                       <p class="card-text">{room.description}</p>
                       <div className="card_footer">
                         <div className='location'>{room.city}</div>
-                        <div className="btn btn-danger">Select Room</div>
+                        <Link className="btn btn-danger" to={`/rooms/${room._id}`}>Select Room</Link>
                       </div>
                     </div>
                   </div>
