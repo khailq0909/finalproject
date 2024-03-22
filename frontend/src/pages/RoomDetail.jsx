@@ -1,36 +1,37 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
-import axios from 'axios';
+
+import Header from "../components/Header/Header"
+import Search from "../components/Search/Search"
+import RoomInfor from '../form/RoomDetailInfor/RoomInfor'
 
 function RoomDetail() {
-    const { roomId } = useParams();
-    const [roomdata, setRoomdata] = useState();
-    useEffect(() => {
-        axios.get(`/rooms/${roomId}`)
-          .then(data => {
-            setRoomdata(data.data);
-          })
-          .catch(err => console.log(err))
-      })
-
-      if (!roomdata) {
-        return <></>;
-      }
+  
   return (
-    <div className="container">
-        <h1>{roomdata.name}</h1>
-        <p>{roomdata.city}</p>
-        <p>{roomdata.country}</p>
-        <p>{roomdata.description}</p>
-        <p>{roomdata.type}</p>
-        <p>{roomdata.adultCount}</p>
-        <p>{roomdata.childCount}</p>
-        <p>{roomdata.facilities}</p>
-        <p>{roomdata.pricePerNight}</p>
-        <p>{roomdata.starRating}</p>
+    <div className="room">
+      <Header /> 
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="!#">Overview</a>
+                <a class="nav-link active" aria-current="page" href="!#">Rooms</a>
+                <a class="nav-link active" aria-current="page" href="!#">Location</a>
+                <a class="nav-link active" aria-current="page" href="!#">Facilities</a>
+                <a class="nav-link active" aria-current="page" href="!#">Policy</a>
+                <a class="nav-link active" aria-current="page" href="!#">Review</a>
+              </div>
+            </div>
+            <div className="d-flex">
+              <a class="nav-link active" aria-current="page" href="!#">Back to top</a>
+            </div>
+          </div>
+        </nav>
+
+        <RoomInfor/>
+      
     </div>
-)
+
+  )
 }
 
 export default RoomDetail
