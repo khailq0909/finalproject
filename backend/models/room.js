@@ -11,7 +11,7 @@ const roomSchema = new mongoose.Schema({
   childCount: { type: Number, required: true },
   facilities: [{ type: String, required: true }],
   pricePerNight: { type: Number, required: true },
-  starRating: { type: Number, required: true, min: 1, max: 5 },
+  starRating: { type: Number, min: 1, max: 5 },
   imageUrls: [{ type: String }],
   fileName: [{ type: String}],
   lastUpdated: { type: Date},

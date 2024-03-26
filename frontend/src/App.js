@@ -11,6 +11,7 @@ import Me from "./pages/Me/Me";
 import ManageRoom from "./pages/HomeOwner/ManageRoom";
 import EditRoom from "./pages/HomeOwner/EditRoom";
 import TestAdd from "./pages/HomeOwner/TestAdd";
+import AddRoom from "./pages/HomeOwner/AddRoom";
 
 function App() {
   return (
@@ -23,12 +24,14 @@ function App() {
           <Route path="/me" element={<Me />} />
           <Route path="/rooms/:roomId" element={<RoomDetail/>}/>
           {/* HomeOwner ROUTES */}
-          <Route path ="/homeowner_home" element = {<HomeOwner/>}/>
-          <Route path ="/manage_room" element = {<ManageRoom/>}/>
-          <Route path ="/manage_room/edit_room/:roomId" element = {<EditRoom/>}/>
+          <Route path ="/homeowner-home" element = {<HomeOwner/>}/>
+          <Route path ="/manage-room" element = {<ManageRoom/>}/>
+          <Route path ="/manage-room/add" element = {<AddRoom/>}/>
+          <Route path ="/manage-room/edit/:roomId" element = {<EditRoom/>}/>
+
 
           {/* Admin ROUTES */}
-          <Route path ="/admin_home" element = {<Admin/>}/>
+          <Route path ="/admin-home" element = {<Admin/>}/>
           {/* TEST ROUTE */}
           <Route path ="/test" element = {<TestAdd/>}/>
         </Routes>

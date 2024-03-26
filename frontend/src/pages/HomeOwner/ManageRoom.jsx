@@ -2,36 +2,37 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useQuery } from 'react-query'
 import { AuthContext } from "../../context/AuthContext";
 import axios from 'axios';
-import AddRoom from './AddRoom';
+import { Link, useNavigate } from "react-router-dom";
+import * as Toast from "../../components/Toast";
 
 function ManageRoom() {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  // const [roomData, setRoomData] = useState([])
+  const [roomData, setRoomData] = useState([])
+  useEffect(()=>{
+    axios.get(`rooms/list/${user._id}`)
+    .then((data) =>{
+      setRoomData(data.data);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  },[])
 
-  const { data, error, isError, isLoading } = useQuery(['listrooms'], getListRoom)
-  if (isLoading) {
-    return <span>Đang tải...</span>
-  }
-
-  if (isError) {
-    return <span>Have an errors: {error.message}</span>
-  }
-  async function getListRoom() {
-    const response = await axios.get(`rooms/list/${user._id}`);
-    return response.data;
-  }
-  if (data == null) <></>
+  if (roomData == null) <></>
 
   function handleClickDelete(id) {
     const conf = window.confirm("Are you sure you want to delete?");
 
     try {
       if (conf) {
-        const res = axios.delete(`/rooms/${id}`);
-        console.log(res);
+         axios.delete(`/rooms/${id}`); 
+        console.log("delete successfully")
+        Toast.toastSuccess("Deleted");
       }
-
+      navigate("/manage-room");
     } catch (err) {
+      Toast.toastError("Something went wrong");
       console.log(err);
     }
   }
@@ -55,9 +56,9 @@ function ManageRoom() {
             </tr>
           </thead>
           {
-            data.map((item, index) => {
+            roomData.map((item, index) => {
               return (
-                <tbody>
+                <tbody  key={index}>
                   <tr >
                     <td>{index}</td>
                     <td className='topic_tile'>
@@ -115,13 +116,12 @@ function ManageRoom() {
             })
           }
         </table>
-        <div className="btn btn-success m-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          {" "}
+        <div className="btn btn-success m-2">
+          <Link to={"/manage-room/add"}>
           Add new Room
+          </Link>
         </div>
       </div>
-
-      <AddRoom />
 
     </div>
   )

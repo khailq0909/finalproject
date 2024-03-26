@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import { AuthContextProvider } from "./context/AuthContext";
 import { QueryClient, QueryClientProvider } from 'react-query'
 import "bootstrap/dist/css/bootstrap.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -14,6 +16,18 @@ root.render(
     <AuthContextProvider>
     <QueryClientProvider client={queryClient}>
       <App />
+      <ToastContainer
+      position="top-right"
+      autoClose={4000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover={false}
+      theme="light"
+    />
       </QueryClientProvider>
     </AuthContextProvider>
   </React.StrictMode>

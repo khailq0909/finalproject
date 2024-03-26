@@ -1,4 +1,131 @@
-.navbars{
-    height: 100%;
 
+.navbars{
+    height: 100vh;
+    background-color: #c3c3c3;
 }
+.containe{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.rows{
+    display: flex;
+    flex-wrap: wrap;
+}   
+.cardd{
+	width: 100%;
+	padding: 2rem !important;
+}
+.top-container{
+	display: flex;
+	align-items: center;
+}
+.profile-image{
+	border-radius: 10px;
+	border: 2px solid #fff;
+}
+.name{
+	font-size: 15px;
+	font-weight: bold;
+	color: #fff;
+	position: relative;
+	top: 8px;
+}
+.mail{
+	font-size: 14px;
+	color: #fff;
+	position: relative;
+	top: 2px;
+}
+.name,
+.mail{
+    margin-left: 10px;
+}   
+.col{
+    padding: 0;
+}
+.header_right{
+    height: 60px;
+    background-color: #c3c3c3;
+    display: flex;
+    align-items: center;
+}
+.card{
+	padding: 10px;
+	box-shadow: 0 0 5px #ffdfdfdf;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.card .top{
+	text-align: center;
+}
+.card p{
+	font-weight: bold;
+	color: #000;
+}
+.card .drag-area{
+	height: 150px;
+	border-radius: 5px;
+	border: 2px dashed #ccc;
+	background-color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+	margin-top: 10px;
+}
+.card .drag-area .visible{
+	font-size: 16px;
+}
+.card .select{
+	color: #000;
+	cursor: pointer;
+	transition: 0.4s;
+}
+.card .select:hover{
+	opacity: 0.6;
+}
+.card .containers{
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	max-height: 200px;
+
+	overflow-y: auto;
+	margin-top: 10px;
+}
+.card .containers .image{
+	width: 75px;
+	margin-right: 5px;
+	height: 75px;
+	position: relative;
+	margin-bottom: 5px;
+}
+.card .containers .div .image img{
+	width: 100%;
+	height: 100%;
+	border-radius: 5px;
+	border: 1px solid;
+}
+
+.card .containers .div .delete{
+	position: absolute;
+	top: -2px;
+	right: 9px;
+	font-size: 20px;
+	cursor: pointer;
+	z-index: 1000;
+}
+.card input{
+	width: 100%;
+	height: 100%;
+}
+.card input,
+.card .drag-area .on-drop,
+.card .drag-area .on-dragover .visible{
+    display: none;
+	
+}
+
