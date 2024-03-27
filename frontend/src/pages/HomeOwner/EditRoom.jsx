@@ -1,24 +1,48 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState, useRef } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import * as Toast from "../../components/Toast";
+import * as Toast from "../../components/Toast/Toast";
 
 
 function EditRoom() {
+    const fileInputRef = useRef(null);
     const navigate = useNavigate();
-    const [files, setFiles] = useState("");
+    const [filesData, setFilesData] = useState([]);
+    const [imagesData, setImagesData] = useState([]);
     const [credentials, setCredentials] = useState({
     });
     const handleChange = (e) => {
         setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     };
+    function selectFiles() {
+        fileInputRef.current.click();
+    }
+    function onFileSelect(e) {
+        const files = e.target.files;
+        if (files.length === 0) return;
+        for (let i = 0; i < files.length; i++) {
+            if (!filesData.some((e) => e.name === files[i].name)) {
+                setFilesData((prevImages) => [
+                    ...prevImages,
+                    {
+                        name: files[i].name,
+                        url: URL.createObjectURL(files[i])
+                    }
+                ],
+                setImagesData(files)
+                )
+            }
+        }
+    }
+    function deleteImage(index){
+        setFilesData((prevImages) => prevImages.filter((image, i) => i!== index));
+        setImagesData(Object.values(imagesData).filter((image, i) => i!== index));
+    }
     const handleNewRoom = async (e) => {
         e.preventDefault();
         try {
             const list = await Promise.all(
-                Object.values(files).map(async (file) => {
+                Object.values(imagesData).map(async (file) => {
                     const data = new FormData();
                     data.append("file", file);
                     data.append("upload_preset", "ml_default");
@@ -26,8 +50,6 @@ function EditRoom() {
                         "https://api.cloudinary.com/v1_1/denvpjdpw/image/upload",
                         data
                     );
-                    console.log(uploadRes);
-
                     const { url } = uploadRes.data;
                     const { public_id } = uploadRes.data;
                     return { url: url, public_id: public_id };
@@ -36,7 +58,7 @@ function EditRoom() {
             );
             const listUrl = [];
             const listPublicId = []
-            list.map(item => {                
+            list.map(item => {
                 listUrl.push(item.url);
                 listPublicId.push(item.public_id);
             })
@@ -47,7 +69,6 @@ function EditRoom() {
 
             };
             await axios.post("/rooms", newRoom);
-            console.log("add success");
             Toast.toastSuccess("Add room successfully");
             navigate("/manage-room");
         } catch (err) {
@@ -124,32 +145,36 @@ function EditRoom() {
                         onChange={handleChange}
                     />
                 </div>
-                <div className="mb-3">
-                    <label for="adultCount" className="form-label">
-                        Adult Count
-                    </label>
-                    <input
-                        name="adultCount"
-                        type="number"
-                        className="form-control"
-                        id="adultCount"
-                        placeholder="Enter Adults Count"
-                        onChange={handleChange}
-                    />
+                <div class="input-group">
+                    <div className="mb-3">
+                        <label for="adultCount" className="form-label">
+                            Adult Count
+                        </label>
+                        <input
+                            name="adultCount"
+                            type="number"
+                            className="form-control"
+                            id="adultCount"
+                            placeholder="Enter Adults Count"
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label for="childCount" className="form-label">
+                            Child Count
+                        </label>
+                        <input
+                            name="childCount"
+                            type="number"
+                            className="form-control"
+                            id="childCount"
+                            placeholder="Enter Child Counts"
+                            onChange={handleChange}
+                        />
+                    </div>
                 </div>
-                <div className="mb-3">
-                    <label for="childCount" className="form-label">
-                        Child Count
-                    </label>
-                    <input
-                        name="childCount"
-                        type="number"
-                        className="form-control"
-                        id="childCount"
-                        placeholder="Enter Child Counts"
-                        onChange={handleChange}
-                    />
-                </div>
+
+
                 <div className="mb-3">
                     <label for="facilities" className="form-label">
                         Facilities
@@ -176,7 +201,7 @@ function EditRoom() {
                         onChange={handleChange}
                     />
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <label for="imageUrls" className="form-label">
                         Image
                     </label>
@@ -188,8 +213,36 @@ function EditRoom() {
                         placeholder="Input Image"
                         accept='image/*'
                         multiple
-                        onChange={(e) => setFiles(e.target.files)}
+                        onChange={(e) => setFiles(e.target.Data)}
                     />
+                </div> */}
+                <div className="card">
+                    <div className="top">
+                        <p>Drag & drop images uploading</p>
+                    </div>
+                    <div className="drag-area" onClick={selectFiles}>
+                        <span >Drop & drag here</span>
+                        <input id="imageUrls" type="file" name='imageUrls' className='file'
+                            accept='image/*' multiple onChange={onFileSelect} ref={fileInputRef}  />
+                    </div>
+                    <div className="containers">
+                        {
+                            filesData.map((image, index) => {
+                                return (
+                                    <div className="div">
+                                        <div className="image" key={index}>
+                                            <span className="delete" onClick={()=> deleteImage(index)}>&times;</span>
+                                        <img src={image.url} alt={image.name} />
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
+
+                <div className="image_preview">
+
                 </div>
                 <button
                     type="submit"
@@ -197,7 +250,7 @@ function EditRoom() {
                     data-bs-dismiss="modal"
                     onClick={handleNewRoom}
                 >
-                    Create account
+                    Update Room
                 </button>
             </div>
         </div>

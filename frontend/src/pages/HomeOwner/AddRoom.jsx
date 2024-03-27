@@ -1,16 +1,28 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import * as Toast from "../../components/Toast";
+import * as Toast from "../../components/Toast/Toast";
+import Select from '../../form/Select/Select';
+import Address from '../../components/Address/Address';
 
 
 function AddRoom() {
+
     const fileInputRef = useRef(null);
+    const inputRef = useRef(null);
     const navigate = useNavigate();
     const [filesData, setFilesData] = useState([]);
     const [imagesData, setImagesData] = useState([]);
     const [credentials, setCredentials] = useState({
     });
+    const [payload, setPayload] = useState({
+        address: '',
+        city: '',
+    });
+    console.log(payload);
+    const [address, setAddress] = useState();
+    const [city, setCity] = useState("");
+    console.log(address, city);
     const handleChange = (e) => {
         setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     };
@@ -29,17 +41,16 @@ function AddRoom() {
                         url: URL.createObjectURL(files[i])
                     }
                 ],
-                setImagesData(files)
+                    setImagesData(files)
                 )
             }
         }
     }
-    function deleteImage(index){
-        setFilesData((prevImages) => prevImages.filter((image, i) => i!== index));
-        setImagesData(Object.values(imagesData).filter((image, i) => i!== index));
+    function deleteImage(index) {
+        setFilesData((prevImages) => prevImages.filter((image, i) => i !== index));
+        setImagesData(Object.values(imagesData).filter((image, i) => i !== index));
     }
     const handleNewRoom = async (e) => {
-        console.log("image data:",imagesData);
         e.preventDefault();
         try {
             const list = await Promise.all(
@@ -51,8 +62,6 @@ function AddRoom() {
                         "https://api.cloudinary.com/v1_1/denvpjdpw/image/upload",
                         data
                     );
-                    console.log(uploadRes);
-
                     const { url } = uploadRes.data;
                     const { public_id } = uploadRes.data;
                     return { url: url, public_id: public_id };
@@ -67,12 +76,12 @@ function AddRoom() {
             })
             const newRoom = {
                 ...credentials,
+                ...payload,
                 imageUrls: listUrl,
                 fileName: listPublicId
 
             };
             await axios.post("/rooms", newRoom);
-            console.log("add success");
             Toast.toastSuccess("Add room successfully");
             navigate("/manage-room");
         } catch (err) {
@@ -80,7 +89,6 @@ function AddRoom() {
             console.log(err);
         }
     }
-
     return (
         <div>
             <div className="container">
@@ -110,32 +118,7 @@ function AddRoom() {
                         onChange={handleChange}
                     />
                 </div>
-                <div className="mb-3">
-                    <label for="city" className="form-label">
-                        City
-                    </label>
-                    <input
-                        name="city"
-                        type="text"
-                        className="form-control"
-                        id="city"
-                        placeholder="Enter city"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label for="address" className="form-label">
-                        Address
-                    </label>
-                    <input
-                        name="address"
-                        type="text"
-                        className="form-control"
-                        id="address"
-                        placeholder="Enter address"
-                        onChange={handleChange}
-                    />
-                </div>
+                <Address setPayload={setPayload}/>
                 <div className="mb-3">
                     <label for="description" className="form-label">
                         Description
@@ -205,29 +188,14 @@ function AddRoom() {
                         onChange={handleChange}
                     />
                 </div>
-                {/* <div className="mb-3">
-                    <label for="imageUrls" className="form-label">
-                        Image
-                    </label>
-                    <input
-                        name="imageUrls"
-                        type="file"
-                        className="form-control"
-                        id="imageUrls"
-                        placeholder="Input Image"
-                        accept='image/*'
-                        multiple
-                        onChange={(e) => setFiles(e.target.Data)}
-                    />
-                </div> */}
-                <div className="card">
+                <div className="cards">
                     <div className="top">
                         <p>Drag & drop images uploading</p>
                     </div>
                     <div className="drag-area" onClick={selectFiles}>
                         <span >Drop & drag here</span>
                         <input id="imageUrls" type="file" name='imageUrls' className='file'
-                            accept='image/*' multiple onChange={onFileSelect} ref={fileInputRef}  />
+                            accept='image/*' multiple onChange={onFileSelect} ref={fileInputRef} />
                     </div>
                     <div className="containers">
                         {
@@ -235,8 +203,8 @@ function AddRoom() {
                                 return (
                                     <div className="div">
                                         <div className="image" key={index}>
-                                            <span className="delete" onClick={()=> deleteImage(index)}>&times;</span>
-                                        <img src={image.url} alt={image.name} />
+                                            <span className="delete" onClick={() => deleteImage(index)}>&times;</span>
+                                            <img src={image.url} alt={image.name} />
                                         </div>
                                     </div>
                                 )

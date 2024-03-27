@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../components/Header/Header'
 import Hero from '../components/Hero/Hero'
-import Search from '../components/Search/Search'
+import Search from '../form/Search/Search'
 import Container from '../components/Container/Container'
 function home() {
   return (

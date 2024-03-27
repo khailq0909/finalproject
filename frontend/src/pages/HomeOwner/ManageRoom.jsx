@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { AuthContext } from "../../context/AuthContext";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
-import * as Toast from "../../components/Toast";
+import * as Toast from "../../components/Toast/Toast";
 
 function ManageRoom() {
   const navigate = useNavigate();

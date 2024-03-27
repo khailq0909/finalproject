@@ -49,20 +49,20 @@
     display: flex;
     align-items: center;
 }
-.card{
+.cards{
 	padding: 10px;
 	box-shadow: 0 0 5px #ffdfdfdf;
 	border-radius: 5px;
 	overflow: hidden;
 }
-.card .top{
+.cards .top{
 	text-align: center;
 }
-.card p{
+.cards p{
 	font-weight: bold;
 	color: #000;
 }
-.card .drag-area{
+.cards .drag-area{
 	height: 150px;
 	border-radius: 5px;
 	border: 2px dashed #ccc;
@@ -73,18 +73,18 @@
 	user-select: none;
 	margin-top: 10px;
 }
-.card .drag-area .visible{
+.cards .drag-area .visible{
 	font-size: 16px;
 }
-.card .select{
+.cards .select{
 	color: #000;
 	cursor: pointer;
 	transition: 0.4s;
 }
-.card .select:hover{
+.cards .select:hover{
 	opacity: 0.6;
 }
-.card .containers{
+.cards .containers{
 	width: 100%;
 	height: auto;
 	display: flex;
@@ -96,21 +96,21 @@
 	overflow-y: auto;
 	margin-top: 10px;
 }
-.card .containers .image{
+.cards .containers .image{
 	width: 75px;
 	margin-right: 5px;
 	height: 75px;
 	position: relative;
 	margin-bottom: 5px;
 }
-.card .containers .div .image img{
+.cards .containers .div .image img{
 	width: 100%;
 	height: 100%;
 	border-radius: 5px;
 	border: 1px solid;
 }
 
-.card .containers .div .delete{
+.cards .containers .div .delete{
 	position: absolute;
 	top: -2px;
 	right: 9px;
@@ -118,13 +118,13 @@
 	cursor: pointer;
 	z-index: 1000;
 }
-.card input{
+.cards input{
 	width: 100%;
 	height: 100%;
 }
-.card input,
-.card .drag-area .on-drop,
-.card .drag-area .on-dragover .visible{
+.cards input,
+.cards .drag-area .on-drop,
+.cards .drag-area .on-dragover .visible{
     display: none;
 	
 }

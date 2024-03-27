@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Header from "../components/Header/Header"
-import Search from "../components/Search/Search"
+import Search from "../form/Search/Search"
 import RoomInfor from '../form/RoomDetailInfor/RoomInfor'
 
 function RoomDetail() {
