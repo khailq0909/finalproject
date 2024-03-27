@@ -43,13 +43,14 @@ function Header() {
 
                                 <Dropdown.Menu>
                                     <Dropdown.Item><Link to={"/me"}>Profile</Link></Dropdown.Item>
+                                    <Dropdown.Item><Link to={"/homeowner-home"}>Manage</Link></Dropdown.Item>
                                     <Dropdown.Item>My Booking</Dropdown.Item>
                                     <Dropdown.Item  disabled={loading} onClick={handleClick} >Logout</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown></div> : (
                             <><Link className='btn btn-light border border-primary me-2 ' to='/login'>
                                 <FontAwesomeIcon icon={faUser} className='pe-2 text-primary'></FontAwesomeIcon>
-                                Login</Link><Link className='btn btn-primary p-2' to='/register'>Register</Link></>
+                                Login</Link><Link className='btn btn-primary p-2' to='register'>Register</Link></>
                         )}
 
 

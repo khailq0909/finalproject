@@ -3,6 +3,7 @@ import { useQuery } from 'react-query'
 import { AuthContext } from "../../context/AuthContext";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
+import noData from "../../assets/images/noData.png";
 import * as Toast from "../../components/Toast/Toast";
 
 function ManageRoom() {
@@ -10,7 +11,7 @@ function ManageRoom() {
   const { user } = useContext(AuthContext);
   const [roomData, setRoomData] = useState([])
   useEffect(()=>{
-    axios.get(`rooms/list/${user._id}`)
+    axios.get(`/rooms/list/${user._id}`)
     .then((data) =>{
       setRoomData(data.data);
     })
@@ -29,29 +30,38 @@ function ManageRoom() {
          axios.delete(`/rooms/${id}`); 
         console.log("delete successfully")
         Toast.toastSuccess("Deleted");
+        setTimeout(()=>{
+          window.location.reload();
+        },3000)
       }
-      navigate("/manage-room");
     } catch (err) {
       Toast.toastError("Something went wrong");
       console.log(err);
     }
   }
+  console.log(roomData)
   return (
-    <div className='container'>
+    <>
+    <div className="manage_room container">
+      <div className="manage_header d-flex justify-content-center align-items-center mt-3 me-2">
+        <h2>Manage Room</h2>
+      </div>
+      <div className="line"></div>
+    {roomData.length !== 0  ?     <div className=''>
       <div className="topic_table">
         <table className="table align-middle mb-0 bg-white table-bordered mt-5">
           <thead className="bg-light ">
             <tr>
-              <th>No</th>
-              <th>Room Name</th>
-              <th>Type</th>
-              <th>Address</th>
-              <th>City</th>
-              <th>Adult Count</th>
-              <th>Child Count</th>
-              <th>Price/ Night</th>
-              <th>Last Updated</th>
-              <th>Action</th>
+              <th className='fs-6 text'>No</th>
+              <th className='fs-6 text'>Room Name</th>
+              <th className='fs-6 text'>Type</th>
+              <th className='fs-6 text'>Address</th>
+              <th className='fs-6 text'>City</th>
+              <th className='fs-6 text'>Adult Count</th>
+              <th className='fs-6 text'>Child Count</th>
+              <th className='fs-6 text'>Price/ Night</th>
+              <th className='fs-6 text'>Last Updated</th>
+              <th className='fs-6 text'>Action</th>
 
             </tr>
           </thead>
@@ -60,7 +70,7 @@ function ManageRoom() {
               return (
                 <tbody  key={index}>
                   <tr >
-                    <td>{index}</td>
+                    <td>{index + 1}</td>
                     <td className='topic_tile'>
                       <div className="d-flex align-items-center">
                         {item.name}
@@ -116,14 +126,14 @@ function ManageRoom() {
             })
           }
         </table>
-        <div className="btn btn-success m-2">
-          <Link to={"/manage-room/add"}>
-          Add new Room
-          </Link>
-        </div>
       </div>
+    </div>: <div className='container d-flex justify-content-center mt-5'>
+          <img className='w-50' src={noData} alt="noData" />
+      </div>}
 
     </div>
+
+    </>
   )
 }
 

@@ -6,7 +6,7 @@ function Select({ label,options, value, setValue,type, reset }) {
 
 
   return (
-    <div className="d-flex flex-column mb-3 justify-content-between w-100 ps-2 pe-2">
+    <div className="d-flex flex-column mb-3 justify-content-between ps-2 pe-2 w-50">
       <label htmlFor="address-seleect">{label}</label>
       <select value={reset ? '':value} onChange={(e) => setValue(e.target.value)} id="address-seleect" className='select p-2 rounded-1 border-1'>
         <option value="">{`--Select ${label}--`}</option>

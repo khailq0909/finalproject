@@ -59,7 +59,7 @@ function Address({setPayload}) {
     },[province,district,ward])
   return (
     <div className='select-address'>
-    <div className="select-area">
+    <div className="select-area d-flex justify-content-between">
         <Select  type="province" value={province} setValue={setProvince} options={provinces} label={"City"} />
         <Select  reset={reset} type="district" value={district} setValue={setDistrict} options={districts} label={"District"} />
         <Select  reset={reset} type="ward" value={ward} setValue={setWard} options={wards} label={"Ward"} />

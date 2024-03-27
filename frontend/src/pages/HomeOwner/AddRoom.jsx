@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import * as Toast from "../../components/Toast/Toast";
@@ -9,8 +9,6 @@ import Address from '../../components/Address/Address';
 function AddRoom() {
 
     const fileInputRef = useRef(null);
-    const inputRef = useRef(null);
-    const navigate = useNavigate();
     const [filesData, setFilesData] = useState([]);
     const [imagesData, setImagesData] = useState([]);
     const [credentials, setCredentials] = useState({
@@ -20,9 +18,6 @@ function AddRoom() {
         city: '',
     });
     console.log(payload);
-    const [address, setAddress] = useState();
-    const [city, setCity] = useState("");
-    console.log(address, city);
     const handleChange = (e) => {
         setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     };
@@ -83,149 +78,170 @@ function AddRoom() {
             };
             await axios.post("/rooms", newRoom);
             Toast.toastSuccess("Add room successfully");
-            navigate("/manage-room");
+            setTimeout(()=>{
+                window.location.reload();
+              },3000)
         } catch (err) {
             Toast.toastError("Something went wrong");
             console.log(err);
         }
     }
     return (
-        <div>
-            <div className="container">
-                <div className="mb-3">
-                    <label for="name" className="form-label">
-                        Room Name
-                    </label>
-                    <input
-                        name="name"
-                        type="text"
-                        className="form-control"
-                        id="name"
-                        placeholder="Enter Room Name"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label for="username" className="form-label">
-                        Room Type
-                    </label>
-                    <input
-                        name="type"
-                        type="text"
-                        className="form-control"
-                        id="type"
-                        placeholder="Enter Name"
-                        onChange={handleChange}
-                    />
-                </div>
-                <Address setPayload={setPayload}/>
-                <div className="mb-3">
-                    <label for="description" className="form-label">
-                        Description
-                    </label>
-                    <input
-                        name="description"
-                        type="text"
-                        className="form-control"
-                        id="description"
-                        placeholder="Enter description"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div class="input-group">
-                    <div className="mb-3">
-                        <label for="adultCount" className="form-label">
-                            Adult Count
-                        </label>
-                        <input
-                            name="adultCount"
-                            type="number"
-                            className="form-control"
-                            id="adultCount"
-                            placeholder="Enter Adults Count"
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label for="childCount" className="form-label">
-                            Child Count
-                        </label>
-                        <input
-                            name="childCount"
-                            type="number"
-                            className="form-control"
-                            id="childCount"
-                            placeholder="Enter Child Counts"
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-
-
-                <div className="mb-3">
-                    <label for="facilities" className="form-label">
-                        Facilities
-                    </label>
-                    <input
-                        name="facilities"
-                        type="text"
-                        className="form-control"
-                        id="facilities"
-                        placeholder="Enter Facility Name"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label for="pricePerNight" className="form-label">
-                        Price Per Night
-                    </label>
-                    <input
-                        name="pricePerNight"
-                        type="number"
-                        className="form-control"
-                        id="pricePerNight"
-                        placeholder="Enter Price Per Night"
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="cards">
-                    <div className="top">
-                        <p>Drag & drop images uploading</p>
-                    </div>
-                    <div className="drag-area" onClick={selectFiles}>
-                        <span >Drop & drag here</span>
-                        <input id="imageUrls" type="file" name='imageUrls' className='file'
-                            accept='image/*' multiple onChange={onFileSelect} ref={fileInputRef} />
-                    </div>
-                    <div className="containers">
-                        {
-                            filesData.map((image, index) => {
-                                return (
-                                    <div className="div">
-                                        <div className="image" key={index}>
-                                            <span className="delete" onClick={() => deleteImage(index)}>&times;</span>
-                                            <img src={image.url} alt={image.name} />
-                                        </div>
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>
-                </div>
-
-                <div className="image_preview">
-
-                </div>
-                <button
-                    type="submit"
-                    className="btn btn-primary"
-                    data-bs-dismiss="modal"
-                    onClick={handleNewRoom}
-                >
-                    Create Room
-                </button>
+        <div className="container">
+            <div className="add_header d-flex justify-content-center mt-4 mb-3">
+                <h2>Create new room for sale</h2>
             </div>
+            <div className="line"></div>
+            <div className="row mt-5">
+                <div className="col-7 me-auto">
+                    <div className="container">
+                        <div className="mb-3">
+                            <label for="name" className="form-label">
+                                Room Name
+                            </label>
+                            <input
+                                name="name"
+                                type="text"
+                                className="form-control"
+                                id="name"
+                                placeholder="Enter Room Name"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label for="username" className="form-label">
+                                Room Type
+                            </label>
+                            <input
+                                name="type"
+                                type="text"
+                                className="form-control"
+                                id="type"
+                                placeholder="Enter Name"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <Address setPayload={setPayload} />
+                        <div class="input-group  d-flex flex-nowrap justify-content-between">
+                            <div className="mb-3 me-2 w-50">
+                                <label for="adultCount" className="form-label">
+                                    Adult Count
+                                </label>
+                                <input
+                                    name="adultCount"
+                                    type="number"
+                                    className="form-control"
+                                    id="adultCount"
+                                    min={0}
+                                    max={10}
+                                    placeholder="Enter Adults Count"
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="mb-3 ms-2 w-50">
+                                <label for="childCount" className="form-label">
+                                    Child Count
+                                </label>
+                                <input
+                                    name="childCount"
+                                    min={0}
+                                    max={10}
+                                    type="number"
+                                    className="form-control"
+                                    id="childCount"
+                                    placeholder="Enter Child Counts"
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="mb-3">
+                            <label for="pricePerNight" className="form-label">
+                                Price Per Night
+                            </label>
+                            <input
+                                name="pricePerNight"
+                                type="number"
+                                inputmode="decimal"
+                                className="form-control"
+                                id="pricePerNight"
+                                min={0}
+                                max={9999}
+                                placeholder="Enter Price Per Night"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label for="description" className="form-label">
+                                Description
+                            </label>
+                            <textarea
+                                name="description"
+                                type="text"
+                                className="form-control pt-1"
+                                id="description"
+                                placeholder="Enter description"
+                                rows="15"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label for="facilities" className="form-label">
+                                Facilities
+                            </label>
+                            <input
+                                name="facilities"
+                                type="text"
+                                className="form-control"
+                                id="facilities"
+                                placeholder="Enter Facility Name"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            data-bs-dismiss="modal"
+                            onClick={handleNewRoom}
+                        >
+                            Create Room
+                        </button>
+                    </div>
+                </div>
+                <div className="col-5  position-relative">
+                <div className="cards position-fixed">
+                            <div className="top">
+                                <p>Drag & drop images uploading</p>
+                            </div>
+                            <div className="drag-area" onClick={selectFiles}>
+                                <span >Drop & drag here</span>
+                                <input id="imageUrls" type="file" name='imageUrls' className='file'
+                                    accept='image/*' multiple onChange={onFileSelect} ref={fileInputRef} />
+                            </div>
+                            <div className="containers">
+                                {
+                                    filesData.map((image, index) => {
+                                        return (
+                                            <div className="div">
+                                                <div className="image" key={index}>
+                                                    <span className="delete" onClick={() => deleteImage(index)}>&times;</span>
+                                                    <img src={image.url} alt={image.name} />
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+
+                        <div className="image_preview">
+
+                        </div>
+                </div>
+            </div>
+
+            
         </div>
+      
     )
 }
 
