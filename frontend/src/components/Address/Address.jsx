@@ -1,23 +1,42 @@
 import axios from 'axios';
-import React, { memo,useState, useRef, useEffect} from 'react';
+import React, { memo,useState, useRef, useEffect, d} from 'react';
 
 import Select from '../../form/Select/Select';
-function Address({setPayload}) {
+function Address({setPayload, data}) {
+    console.log('address', data)
     const [provinces, setProvinces] = useState([]);
     const [districts, setDistricts] = useState([]);
     const [wards, setWards] = useState([]);
 
-    const [province, setProvince] = useState();
-    const [district, setDistrict] = useState();
-    const [ward, setWard] = useState();
+    const [province, setProvince] = useState(null);
+    const [district, setDistrict] = useState(null);
+    const [ward, setWard] = useState(null);
     const [homeNumber, setHomeNumber] = useState("");
     const [reset,setReset] = useState(false);
 
+    // useEffect(()=>{
+    //     let addressArr = data?.address?.split(",")
+    //             let foundProvince = provinces.length > 0 && provinces?.find(item => item.province_name === addressArr[addressArr.length -1]?.trim())
+    //             setProvince(foundProvince ? foundProvince.province_id : '')
+    // },[data]);  
+
+    // useEffect(()=>{
+    //     let addressArr = data?.address?.split(",")
+    //             let foundDistrict = districts.length > 0 && districts?.find(item => item.district_name === addressArr[addressArr.length -2]?.trim())
+    //             setDistrict(foundDistrict ? foundDistrict.district_id : '')
+    // },[data,districts]); 
+
+    // useEffect(()=>{
+    //     let addressArr = data?.address?.split(",")
+    //             let foundWard = wards.length > 0 && wards?.find(item => item.ward_name === addressArr[addressArr.length -3]?.trim())
+    //             setWard(foundWard ? foundWard.ward_id : '')
+    // },[data, wards]) 
+
     useEffect(() => {
+        // setProvince(null);
         const getPublicProvinces = async () => {
             const res = await axios.get("https://vapi.vnappmob.com/api/province/");
             if (res.status === 200) {
-
                 setProvinces(res?.data.results);
             }
         }
@@ -25,7 +44,7 @@ function Address({setPayload}) {
     }, [])
 
     useEffect(() => {
-        setDistrict(null);
+        setDistrict(null)
         const getPublicDistrict = async (provinceId) => {
             console.log(provinceId)
             const res = await axios.get(`https://vapi.vnappmob.com/api/province/district/${provinceId}`);
@@ -46,10 +65,11 @@ function Address({setPayload}) {
                 setWards(res?.data.results);
             }
         }
-        getPublicWard(district);
+        district && getPublicWard(district);
         !district ? setReset(true) : setReset(false);
         !district && setWards([])
     }, [district])
+
     useEffect(()=>{
         setPayload({
             address: `${homeNumber ? `${homeNumber},` : ''} ${ward ? `${wards?.find(item => item.ward_id === ward)?.ward_name},` : ''} ${district ? `${districts?.find(item => item.district_id === district)?.district_name},` : ''} ${province ? `${provinces?.find(item => item.province_id === province)?.province_name}` : ''} `,

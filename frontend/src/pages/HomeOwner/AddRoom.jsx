@@ -17,7 +17,6 @@ function AddRoom() {
         address: '',
         city: '',
     });
-    console.log(payload);
     const handleChange = (e) => {
         setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     };
@@ -92,7 +91,7 @@ function AddRoom() {
                 <h2>Create new room for sale</h2>
             </div>
             <div className="line"></div>
-            <div className="row mt-5">
+            <div className="row mt-5 ">
                 <div className="col-7 me-auto">
                     <div className="container">
                         <div className="mb-3">
@@ -199,7 +198,7 @@ function AddRoom() {
                         </div>
                         <button
                             type="submit"
-                            className="btn btn-primary"
+                            className="btn btn-primary mt-2 mb-5 w-100"
                             data-bs-dismiss="modal"
                             onClick={handleNewRoom}
                         >
